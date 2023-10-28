@@ -1,11 +1,13 @@
 let playerChoice, computerChoice;
 
 for (let i = 0; i < 5; i++) {
-  playerChoice = prompt("What's your choice?");
+  let round = `Round ${i + 1}`
+
+  playerChoice = prompt(`${round}. What's your choice?`);
   computerChoice = getComputerChoice();
 
   console.log(
-    `Round ${i + 1} -> you: ${playerChoice} vs computer: ${computerChoice}`
+    `${round} -> you: ${playerChoice} vs computer: ${computerChoice}`
   );
 
   console.log(playRound(playerChoice, computerChoice));
@@ -20,21 +22,19 @@ function getComputerChoice() {
 
 function playRound(ps, cs) {
   ps = ps.toLowerCase();
-
-  if (ps === cs)
-    return "It's a tie!";
-  else if (ps === "rock" && cs === "paper")
-    return "You Loose! Paper beats Rock";
-  else if (ps === "rock" && cs === "scissor")
-    return "You Won! Rock beats Scissor";
-  else if (ps === "paper" && cs === "rock")
-    return "You Won! Paper beats Rock";
-  else if (ps === "paper" && cs === "scissor")
-    return "You Loose! Scissor beats paper";
-  else if (ps === "scissor" && cs === "rock")
-    return "You Loose! Rock beats Scissor";
-  else if (ps === "scissor" && cs === "paper")
-    return "You Won! Scissor beats Paper";
-  else
-    return "Unknown Choice!";
+  return ps === cs
+    ? "It's a tie"
+    : ps === "rock" && cs === "paper"
+    ? "You Loose! Paper beats Rock"
+    : ps === "rock" && cs === "scissor"
+    ? "You Won! Rock beats Scissor"
+    : ps === "paper" && cs === "rock"
+    ? "You Won! Paper beats Rock"
+    : ps === "paper" && cs === "scissor"
+    ? "You Loose! Scissor beats paper"
+    : ps === "scissor" && cs === "rock"
+    ? "You Loose! Rock beats Scissor"
+    : ps === "scissor" && cs === "paper"
+    ? "You Won! Scissor beats Paper"
+    : "Unknown Choice!";
 }
