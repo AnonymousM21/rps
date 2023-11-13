@@ -1,16 +1,62 @@
-let playerChoice, computerChoice;
+let computerScore = 0,
+  playerScore = 0;
+const btnContainer = document.querySelector(".btnContainer");
+const result = document.querySelector(".result");
+const score = document.querySelector(".score");
+const playScore = document.querySelector(".playScore");
+const compScore = document.querySelector(".compScore");
+const finalResult = document.querySelector(".finalResult");
 
-for (let i = 0; i < 5; i++) {
-  let round = `Round ${i + 1}`
+btnContainer.addEventListener("click", (evt) => {
+  const targetChild = evt.target;
+  switch (targetChild.id) {
+    case "rock":
+      result.textContent = playRound("rock", getComputerChoice());
+      incrementScore();
+      checkWinner();
+      break;
+    case "paper":
+      result.textContent = playRound("paper", getComputerChoice());
+      incrementScore();
+      checkWinner();
+      break;
+    case "scissor":
+      result.textContent = playRound("scissor", getComputerChoice());
+      incrementScore();
+      checkWinner();
+      break;
+  }
+});
 
-  playerChoice = prompt(`${round}. What's your choice?`);
-  computerChoice = getComputerChoice();
+function incrementScore() {
+  if (result.textContent.includes("Won")) {
+    ++playerScore;
+    displayScoreResult();
+  } else if (result.textContent.includes("Loose")) {
+    ++computerScore;
+    displayScoreResult();
+  } else {
+    displayScoreResult();
+  }
+}
 
-  console.log(
-    `${round} -> you: ${playerChoice} vs computer: ${computerChoice}`
-  );
+function displayScoreResult() {
+  playScore.textContent = `Player Score: ${playerScore}`;
+  compScore.textContent = `Computer Score: ${computerScore}`;
+}
 
-  console.log(playRound(playerChoice, computerChoice));
+function checkWinner() {
+  if (playerScore === 5) {
+    finalResult.textContent = `You Won ${playerScore}-${computerScore}! Refresh the page to play again.`;
+    endGame();
+  } else if (computerScore === 5) {
+    finalResult.textContent = `You Lost ${playerScore}-${computerScore}! Refresh the page to play again.`;
+    endGame();
+  }
+}
+
+function endGame() {
+  for (btn of btnContainer.children) btn.disabled = true;
 }
 
 function getComputerChoice() {
@@ -21,7 +67,6 @@ function getComputerChoice() {
 }
 
 function playRound(ps, cs) {
-  ps = ps.toLowerCase();
   return ps === cs
     ? "It's a tie"
     : ps === "rock" && cs === "paper"
